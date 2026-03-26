@@ -1,0 +1,23 @@
+RESUMEN:
+
+CRITICO: 3 productos
+REPOSICION: 8 productos
+BUFFER_MINIMO: 5 productos
+OK: 20 productos
+REVISAR_STOCK: 1 producto
+
+---
+
+DIFERENCIAS DETECTADAS:
+
+- KITADOL FORTE → sistema 0 vs manual 0 (OK)
+- ERGO DOLANET → unidad inconsistente
+- PROCOPS → stock negativo (REVISAR)
+
+---
+
+INSIGHTS:
+
+- sistema POS no guarda histórico
+- hay problemas de unidad de compra
+- se detectaron inconsistencias de stock

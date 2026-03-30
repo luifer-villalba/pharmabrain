@@ -1,0 +1,63 @@
+RESUMEN:
+
+  CRITICO: 24 productos
+  REPOSICION: 1 productos
+  BUFFER_MINIMO: 26 productos
+  OK: 58 productos
+  REVISAR_STOCK: 2 productos
+
+---
+
+  [BUFFER_MINIMO] PLENITUD FEMME NOCTURNA*392/504 X 20UNID | stock=1 ventas=1 pedido=1
+  [REPOSICION] COLECTOR DE ORINA PEDIATRICO x 100 ml | stock=1 ventas=2 pedido=1
+  [CRITICO] LAGRIMAX  SOL OFTALMICA x 10 ml | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] TANTUM VERDE SOL. CAJA FCO. X 120 ML. | stock=1 ventas=1 pedido=1
+  [CRITICO] NEUROTOL FORTE COMP. CAJA X 50 | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] ZATIFEN GRIP JARABE CAJA X 1 FCO. X 125 ML. + | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] DIBACTIL 500 MG. COMP. REC. CAJA X 10 | stock=1 ventas=1 pedido=1
+  [CRITICO] BRONCOFAR NF SOL. ORAL CAJA x 1 FCO. X 120 ML | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] HEXACOL CREMA CAJA POMO X 20 G. | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] CONTRATOS PLUS JARABE CAJA FCO. X 120 ML. | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] IRUXOL POMADA CAJA TUBO X 15 G. | stock=1 ventas=1 pedido=1
+  [CRITICO] GRIFOPARKIN COMP. CAJA X 30 | stock=0 ventas=2 pedido=2
+  [BUFFER_MINIMO] RESPIRAN SUSP. AEROSOL CAJA ENV. X 200 DOSIS | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] CITOL TIMOLOL SOL. OFT. CAJA FCO. GOT. X 5 ML | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] SEDALIUM 2,5 SOL. GOTAS ORALES CAJA X 1 FCO. | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] TRIFAMOX DUO COMP. REC. CAJA X 14 | stock=1 ventas=1 pedido=1
+  [REVISAR_STOCK] PROCOPS 50 MG. COMP.REV. caja x 10xunid | stock=-19 ventas=3 pedido=0
+  [BUFFER_MINIMO] TRIAM COMP. REC. CAJA X 6 | stock=1 ventas=1 pedido=1
+  [REVISAR_STOCK] INFRATEN 10 COMP. BIRRAN. CAJA X 30 | stock=-1 ventas=2 pedido=0
+  [CRITICO] ALKA-DIGEST SUSP. GOTAS ORALES CAJA X 1 FCO. | stock=0 ventas=1 pedido=1
+  [CRITICO] AMIZIN 500 COMP. REC. CAJA X 6 | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] RIFAMICINA 10 MG./ML. QUIMFA SOL. TOPICA CAJA | stock=1 ventas=1 pedido=1
+  [CRITICO] TORVA 10 COMP. REC. CAJA X 30 | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] ALGILEM RELAX COMP. REC. CAJA X 20 | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] LANTUS 100 U.I./ML. (BIOLOGICOS) SOL. INY. CA | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] CLORUSOL (CANC. REG. SANIT.) SOL. SPRAY CAJA | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] DOLO-MOVENS POLV. P/RECONST. SOL. ORAL CAJA X | stock=1 ventas=1 pedido=1
+  [CRITICO] SERTAL COMPUESTO COMP. REC. CAJA X 20 | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] BRONAX SOL. OFT. EST. CAJA FCO. X 5 ML. | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] AGUA OXIGENADA 10 VOL. FCO. X 1000ML. | stock=1 ventas=1 pedido=1
+  [CRITICO] VEDIPAL COMP. REC. CAJA X 30 | stock=0 ventas=1 pedido=1
+  [CRITICO] RESPIBEN JARABE CAJA FCO. X 120 ML. | stock=0 ventas=1 pedido=1
+  [CRITICO] CERODIL 500 COMP. REC. CAJA X 30 | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] CLANZOL 20 CAPS. CAJA X 30 | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] GYNOGEL COMP. REC. CAJA X 28 | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] BUENAS NOCHES COMP. REC. CAJA X 30 | stock=1 ventas=1 pedido=1
+  [BUFFER_MINIMO] PRONTA 1 COMP. CAJA X 1 COMP. EN BLIST. | stock=1 ventas=1 pedido=1
+  [CRITICO] ULTRA BENGUE GEL CAJA POMO X 35 G. | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] CIRUELAX MINITABS COMP. REC. CAJA X 10TIRAS | stock=1 ventas=1 pedido=1
+  [CRITICO] TELMINEST 80 COMP. CAJA X 40 | stock=0 ventas=1 pedido=1
+  [CRITICO] TENSIONAL 3 D COMP. REC. CAJA X 28 | stock=0 ventas=1 pedido=1
+  [CRITICO] ETIFLUGEL NARANJA SUSP. CAJA X 1 FCO. X 240 M | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] SUERO FISIOLOGICO 0.9% EUROFARMA SOL. INY. FC | stock=1 ventas=1 pedido=1
+  [CRITICO] INACTIVOENTERO GAS PLUS SUSP. GOT. ORALES CAJ | stock=0 ventas=1 pedido=1
+  [CRITICO] CHOLIB 145 NG/20 MG. COMP. REC. C/PELICULA CA | stock=0 ventas=1 pedido=1
+  [CRITICO] EMADIAN MET 12,5/850 COMP. REC. CAJA X 60 | stock=0 ventas=1 pedido=1
+  [BUFFER_MINIMO] D-ONE CAPS. BLAND. CAJA X 1 | stock=1 ventas=1 pedido=1
+  [CRITICO] SYSTANE SP SOL. EST. CAJA X 1 FCO. X 10 ML. | stock=0 ventas=0 pedido=0
+  [CRITICO] ODONTOL GESIC COMP. REC. CAJA X 10 | stock=0 ventas=0 pedido=0
+  [CRITICO] TIOTAL COMP. REC. RAN. CAJA X 20 | stock=0 ventas=0 pedido=0
+  [CRITICO] IBUPIRAC FLEX COMP. CAJA X 10 | stock=0 ventas=0 pedido=0
+  [CRITICO] INHALAN AZ SUP. NASAL CAJA X 1 FCO. SPRAY INT | stock=0 ventas=0 pedido=0
+  [CRITICO] PASTA LAZAR C/ MANZANILLA PRODUSIL 100 gr. | stock=0 ventas=0 pedido=0

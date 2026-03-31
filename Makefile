@@ -1,69 +1,119 @@
-# Makefile
+# Makefile — PharmaBrain Inventory Decision Engine
 
 PYTHON := python3
 VENV := .venv
 BIN := $(VENV)/bin
 
-.PHONY: install run test lint format migrate \
-        docker-build docker-up docker-down docker-logs \
-        clean help
+.PHONY: install run dev test lint format migrate migration \
+        docker-build docker-up docker-down docker-logs sh \
+        db-reset clean help
 
-# ── Local ────────────────────────────────────────────────────────────────────
+# ---------- Setup ----------
 
 $(VENV):
+	@echo "📦 Creating virtual environment..."
 	$(PYTHON) -m venv $(VENV)
 	$(BIN)/pip install --upgrade pip
 	$(BIN)/pip install -r requirements-dev.txt
+	@echo "✅ Virtual environment ready"
 
-install: $(VENV)
+install: $(VENV)  ## Set up venv and install dependencies
 
-run: $(VENV)
-	$(BIN)/uvicorn app.main:app --reload
+# ---------- Local Development ----------
 
-test: $(VENV)
-	$(BIN)/pytest
+run: $(VENV)  ## Start uvicorn with auto-reload
+	@echo "🚀 Starting FastAPI with auto-reload..."
+	@echo "📍 Dashboard: http://127.0.0.1:8888"
+	@echo "📍 Docs: http://127.0.0.1:8888/docs"
+	$(BIN)/uvicorn app.main:app --reload --port 8888
 
-lint: $(VENV)
+dev: run  ## Alias for run
+
+test: $(VENV)  ## Run pytest
+	@echo "🧪 Running tests..."
+	PYTHONPATH=. $(BIN)/pytest || test $$? -eq 5
+
+lint: $(VENV)  ## Check code quality with ruff
+	@echo "🔍 Linting with ruff..."
 	$(BIN)/ruff check .
+	@echo "✅ Lint passed"
 
-format: $(VENV)
+format: $(VENV)  ## Format code with ruff
+	@echo "🎨 Formatting code..."
 	$(BIN)/ruff format .
+	@echo "✅ Format complete"
 
-migrate: $(VENV)
+# ---------- Migrations ----------
+
+migration: $(VENV)  ## Create new migration (autogenerate)
+	@read -p "Migration name: " name; \
+	$(BIN)/alembic revision --autogenerate -m "$$name"
+
+migrate: $(VENV)  ## Apply all pending migrations
+	@echo "📋 Running alembic upgrade head..."
 	$(BIN)/alembic upgrade head
+	@echo "✅ Migrations applied"
 
-# ── Docker ───────────────────────────────────────────────────────────────────
+# ---------- Docker ----------
 
-docker-build:
+docker-build:  ## Build Docker image
+	@echo "🏗️  Building Docker image..."
 	docker compose build
+	@echo "✅ Build complete"
 
-docker-up:
+docker-up:  ## Start all services (detached)
+	@echo "🚀 Starting services..."
 	docker compose up -d
+	@echo "✅ Services running"
+	@echo "📍 App: http://127.0.0.1:8888"
+	@echo "📍 Docs: http://127.0.0.1:8888/docs"
 
-docker-down:
+docker-down:  ## Stop all services
+	@echo "⏹️  Stopping services..."
 	docker compose down
+	@echo "✅ Stopped"
 
-docker-logs:
+docker-logs:  ## Tail app container logs
 	docker compose logs -f app
 
-# ── Utils ────────────────────────────────────────────────────────────────────
+sh:  ## Open shell in app container
+	docker compose exec app bash
 
-clean:
+# ---------- Database ----------
+
+db-reset:  ## Reset database (drops volume, recreates, applies migrations)
+	@echo "🔄 Resetting database..."
+	docker compose down -v
+	docker compose up -d db app
+	@echo "⏳ Waiting for database to be ready..."
+	@sleep 5
+	@$(MAKE) migrate
+	@echo "✅ Database reset complete"
+
+# ---------- Cleanup ----------
+
+clean:  ## Remove caches and virtual environment
+	@echo "🧹 Cleaning up..."
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
 	rm -rf .venv dist build *.egg-info
+	@echo "✅ Cleanup complete"
 
-help:
+# ---------- Help ----------
+
+help:  ## Show this help message
 	@echo ""
-	@echo "  install       set up venv and install deps"
-	@echo "  run           start uvicorn with --reload"
-	@echo "  test          run pytest"
-	@echo "  lint          ruff check"
-	@echo "  format        ruff format"
-	@echo "  migrate       alembic upgrade head"
-	@echo "  docker-build  build docker image"
-	@echo "  docker-up     start containers (detached)"
-	@echo "  docker-down   stop containers"
-	@echo "  docker-logs   tail app logs"
-	@echo "  clean         remove caches and venv"
+	@echo "  PharmaBrain — Inventory Replenishment Engine"
+	@echo ""
+	@echo "  Setup:"
+	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | grep -E '(install|help)' | awk 'BEGIN {FS = ":.*?## "} {printf "    %-20s %s\n", $$1, $$2}'
+	@echo ""
+	@echo "  Development:"
+	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | grep -vE '(install|help|docker|db-reset|clean|dev)' | head -10 | awk 'BEGIN {FS = ":.*?## "} {printf "    %-20s %s\n", $$1, $$2}'
+	@echo ""
+	@echo "  Docker:"
+	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | grep -E '(docker|sh|db-reset)' | awk 'BEGIN {FS = ":.*?## "} {printf "    %-20s %s\n", $$1, $$2}'
+	@echo ""
+	@echo "  Maintenance:"
+	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | grep -E '(clean|help)' | awk 'BEGIN {FS = ":.*?## "} {printf "    %-20s %s\n", $$1, $$2}'
 	@echo ""

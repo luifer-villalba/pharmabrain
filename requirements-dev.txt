@@ -3,3 +3,6 @@
 -r requirements.txt
 ruff
 pre-commit
+pytest
+pytest-asyncio
+httpx

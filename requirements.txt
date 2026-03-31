@@ -1,4 +1,11 @@
 # requirements.txt
 
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+alembic
 pandas
 xlrd
+python-multipart
+jinja2

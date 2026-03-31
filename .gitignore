@@ -7,6 +7,17 @@
 .venv/
 venv/
 
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
 
 # START Ruler Generated Files
 /.agent/rules/ruler.md

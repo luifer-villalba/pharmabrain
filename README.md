@@ -1,160 +1,98 @@
 # PharmaBrain
 
-PharmaBrain is a decision-support engine for pharmacy inventory replenishment.
+Pharmacy inventory replenishment decision engine. Analyzes stock and sales to generate reorder decisions.
 
-It models how real-world pharmacy operators make daily purchasing decisions using simple, reliable inputs:
-- current stock
-- recent sales (2-day window)
+## How It Works
 
-The goal is not theoretical optimization, but practical, defensible decisions under uncertainty.
+Users upload a Farmagic POS export (XLS) via the web interface. The decision engine classifies each product into an actionable status (critical, reorder, buffer, or OK) and suggests an order quantity based on current stock and 2-day sales window. Results are displayed in the browser and persisted for history and audit.
 
----
+## Stack
 
-## What this actually does
+- **Backend:** FastAPI, SQLAlchemy (async), PostgreSQL, Alembic
+- **Frontend:** Jinja2, HTMX, DaisyUI/Tailwind CSS
+- **Testing:** pytest (async), httpx
+- **Tools:** ruff, black, isort, pre-commit
+- **Deploy:** Railway
 
-PharmaBrain is not a dashboard.
+## Decision Rules
 
-It is a decision engine that:
-
-- suggests how much to reorder per product
-- classifies each product into actionable states
-- detects operational issues in the data
-
----
-
-## Core idea
-
-Pharmacy operations in this context are:
-
-- reactive (short time window)
-- cash-sensitive (avoid overstock)
-- uncertain (supplier variability)
-- data-limited (no historical persistence)
-
-Instead of complex forecasting, PharmaBrain focuses on:
-
-simple rules + real constraints + explainability
-
----
-
-## Decision Rules (v4)
-
-    if stock < 0:
-        order = 0
-        status = "REVISAR_STOCK"
-
-    elif stock == 0:
-        order = sales
-        status = "CRITICO"
-
-    elif stock >= sales:
-        if stock == 1 and sales >= 1:
-            order = 1
-            status = "BUFFER_MINIMO"
-        else:
-            order = 0
-            status = "OK"
-
-    else:
-        order = sales - stock
-        status = "REPOSICION"
-
----
-
-## Status Meaning
-
-| Status         | Meaning |
-|----------------|--------|
-| REVISAR_STOCK  | Data inconsistency (negative stock) |
-| CRITICO        | Out of stock |
-| REPOSICION     | Need to cover missing demand |
-| BUFFER_MINIMO  | Prevent stockout |
-| OK             | No action required |
-
----
-
-## Example Output
-
-    SUMMARY
-
-    CRITICO: 3
-    REPOSICION: 8
-    BUFFER_MINIMO: 5
-    OK: 22
-    REVISAR_STOCK: 1
-
-    ---
-
-    KEY FINDINGS
-
-    - Negative stock detected → requires audit
-    - Low-stock products stabilized with buffer rule
-    - POS system recommendations are not aligned with real decisions
-
----
+| Status         | Meaning                             | Action                |
+|----------------|-------------------------------------|-----------------------|
+| REVISAR_STOCK  | Negative stock — data inconsistency | Audit POS system      |
+| CRITICO        | Zero stock, product was selling     | Order immediately     |
+| REPOSICION     | Stock below recent demand           | Order to cover gap    |
+| BUFFER_MINIMO  | One unit left, risk of stockout     | Order one unit buffer |
+| OK             | Stock covers recent demand          | No action             |
 
 ## Project Structure
 
-    pharma-brain/
-    │
-    ├── data/
-    │   ├── raw/
-    │   ├── processed/
-    │
-    ├── core/
-    │   ├── rules.py
-    │   ├── status.py
-    │
-    ├── scripts/
-    │   ├── run_analysis.py
-    │
-    ├── outputs/
-    │   ├── analysis_*.txt
-    │
-    ├── notes/
-    │   ├── decisions.md
-    │   ├── findings.md
-    │
-    └── README.md
+```
+pharma-brain/
+├── app/
+│   ├── main.py              # FastAPI app factory + lifespan
+│   ├── db.py                # Async session factory, get_db dependency
+│   ├── routers/             # One file per route group
+│   ├── services/            # Business logic (no FastAPI deps)
+│   ├── models/              # SQLAlchemy ORM models
+│   ├── schemas/             # Pydantic request/response models
+│   └── templates/           # Jinja2 templates
+├── core/
+│   ├── rules.py             # Order calculation (pure Python, no deps)
+│   └── status.py            # Status classification (pure Python, no deps)
+├── alembic/                 # Database migrations
+├── tests/                   # pytest test suite
+├── data/raw/                # POS export files
+├── data/processed/          # Processed CSVs
+├── outputs/                 # Analysis reports
+└── notes/                   # Decision log and findings
+```
 
----
+## Running Locally
 
-## How to run
+### Install dependencies
+```bash
+make install
+```
 
-    python scripts/run_analysis.py data/raw/pedido_10727.csv
+### Start PostgreSQL + app with Docker
+```bash
+make docker-up
+```
 
----
+### Run migrations
+```bash
+make migrate
+```
 
-## Key Findings
+### Start development server
+```bash
+make run
+```
 
-- POS system does not store historical decision context
-- Decisions are ephemeral (lost after execution)
-- Default behavior is no reorder
-- Over-ordering is a risk with naive rules
-- Negative stock appears and requires auditing
+The app will be available at `http://localhost:8000`.
 
----
+### Other commands
+```bash
+make test       # Run test suite
+make lint       # Check code quality
+make format     # Auto-format code
+make docker-down  # Stop containers
+```
 
-## Tech
+## Environment Variables
 
-- Python
-- CSV-based processing
-- No heavy frameworks (by design)
+| Variable      | Required | Description                     | Example                   |
+|---------------|----------|---------------------------------|---------------------------|
+| DATABASE_URL  | Yes      | PostgreSQL connection string    | `postgresql+asyncpg://...` |
+| DEBUG         | No       | Enable debug mode (bool)        | `True` or `False`         |
 
----
+## Development
 
-## Philosophy
+- All DB calls and route handlers must be async/await
+- Business logic lives in `app/services/`; routers handle HTTP only
+- `core/` is pure Python with zero framework dependencies
+- Pydantic models for every request body and response
+- Type hints on all function signatures
+- Tests mirror source structure (`tests/test_services_*.py` → `app/services/*.py`)
 
-- Keep it simple
-- Stay close to reality
-- Avoid over-engineering
-- Optimize for usability, not theory
-
----
-
-## Author
-
-Built as part of a transition back to hands-on engineering, focusing on:
-- backend fundamentals
-- real-world data processing
-- decision systems design
+For architecture details, see [docs/architecture.md](docs/architecture.md).
